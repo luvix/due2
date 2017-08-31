@@ -4,7 +4,7 @@ import signal
 import daemon
 import lockfile
 
-from .core import (
+from .yaksok import (
     initial_program_setup,
     do_main_program,
     program_cleanup,
