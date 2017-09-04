@@ -6,6 +6,11 @@ yaksok은 반복시켜야하는 job을 반복시키고 반복되는 작업을 �
 또한 flask를 활용하여 RESTapi와 webhook을 제공합니다.
 이를 통해 외부 프로그램이 yaksok의 일정에 맞추어 함께 동작할 수 있습니다.
 
+## Prerequirements
+**Python Libraries**
+- schedule(>=0.4.3)
+- flask(1.11)
+
 ## Feature
 - schedule by every min, hour, day, week, month,
 - job start at HH:MM:ss
