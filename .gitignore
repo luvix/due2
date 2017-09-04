@@ -101,4 +101,5 @@ ENV/
 # myIgnore
 .venv.py3
 .idea
-*.db
+.sql
+.db
