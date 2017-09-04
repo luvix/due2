@@ -99,7 +99,6 @@ ENV/
 .mypy_cache/
 
 # myIgnore
-.venv.py3
-.idea
-.sql
-.db
+/.idea
+*.sql
+*.db
