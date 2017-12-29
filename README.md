@@ -8,7 +8,7 @@ Alternative job yaksokduler to cron.
 
 # Interfaces
 
-## yaksokdule interface
+## schedule interface
 
 | cmd | Req/Opt | description | example | 
 | --- | --- | --- | --- | 
@@ -18,7 +18,7 @@ Alternative job yaksokduler to cron.
 | `--month`, `-m` | Optional | yaksokdule routine (interval unit: month) | `yaksok 'echo hello world' --months=1 --at=8:45`, `yaksok 'echo hello world' -m 1 -a 8:45` | 
 | `--year`, `-y` | Optional | yaksokdule routine (interval unit: year) | `yaksok 'echo hello world' --years=1 --at=8:45`, `yaksok 'echo hello world' -y 1 -a 8:45` | 
 
-### Job interface
+## Job interface
 
 | cmd | Req/Opt | description | example | 
 | --- | --- | --- | --- | 
@@ -28,7 +28,7 @@ Alternative job yaksokduler to cron.
 | `--name`, `-n` | Optional | Name the job. |  `yaksok 'echo hello world' -a 8:45 -n hello`  | 
 | `--tag`, `-t` | Optional | put tag on the job. You can tag multiple keys separated with comma. |  `yaksok 'echo hello world' -a 8:45 -t this,is,connect,ring,between,you,and,me`  | 
 
-### Management interface
+## Management interface
 
 | cmd | Req/Opt | description | example | 
 | --- | --- | --- | --- | 
