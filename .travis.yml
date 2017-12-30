@@ -9,12 +9,17 @@ services:
   - docker
   
 before_install:
-  - sudo apt-get update
-#  - echo 'DOCKER_OPTS="-H tcp://127.0.0.1:2375 -H unix:///var/run/docker.sock -s devicemapper"' | sudo tee /etc/default/docker > /dev/null
-  - sudo service docker restart
-  - sleep 5
-  - sudo docker pull centos:centos${OS_VERSION}
+  - OS_TYPE=centos 
+    - sudo apt-get update
+  #  - echo 'DOCKER_OPTS="-H tcp://127.0.0.1:2375 -H unix:///var/run/docker.sock -s devicemapper"' | sudo tee /etc/default/docker > /dev/null
+    - sudo service docker restart
+    - sleep 5
+    - sudo docker pull centos:centos${OS_VERSION}
 
+
+before_install:
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew update          ; fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install graphviz; fi
   
 script:
  # Run tests in Container
