@@ -1,8 +1,7 @@
 sudo: required
 env:
   matrix:
-    include:
     - os: linux
-      sudo: required
     - os: osx
-      language: generic
+    - OS_TYPE=centos OS_VERSION=6
+    - OS_TYPE=centos OS_VERSION=7
