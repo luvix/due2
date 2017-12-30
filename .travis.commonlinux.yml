@@ -1,5 +1,0 @@
-sudo: required
-env:
-  matrix:
-    - os: linux
-    - os: osx
