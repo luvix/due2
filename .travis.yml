@@ -11,17 +11,16 @@ services:
   - docker
   
 before_install:
-  - if [[ ${OS_TYPE}="centos" || ${OS_TYPE}="opensuse" ]]; then sudo apt-get update
-  - if [[ ${OS_TYPE}="centos" || ${OS_TYPE}="opensuse" ]]; then sudo service docker restart
-  - if [[ ${OS_TYPE}="centos" || ${OS_TYPE}="opensuse" ]]; then sleep 5
-  - if [[ ${OS_TYPE}="centos" || ${OS_TYPE}="opensuse" ]]; then sudo docker pull ${OS_TYPE}:${OS_TYPE}${OS_VERSION}
+  - if [ ${OS_TYPE}="centos" || ${OS_TYPE}="opensuse" ]; then sudo apt-get update
+  - if [ ${OS_TYPE}="centos" || ${OS_TYPE}="opensuse" ]; then sudo service docker restart
+  - if [ ${OS_TYPE}="centos" || ${OS_TYPE}="opensuse" ]; then sleep 5
+  - if [ ${OS_TYPE}="centos" || ${OS_TYPE}="opensuse" ]; then sudo docker pull ${OS_TYPE}:${OS_TYPE}${OS_VERSION}
 
 
 before_install:
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew update          ; fi
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install graphviz; fi
+  - if [ "$TRAVIS_OS_NAME" == "osx" ]; then brew update          ; fi
   
 script:
-  - 'echo hello_world'
+  - echo hello_world
  # Run tests in Container
  #- tests/setup_tests.sh ${OS_VERSION}
