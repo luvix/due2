@@ -101,3 +101,6 @@ ENV/
 # myIgnore
 .venv.py3
 .idea
+
+# VS code
+.vscode/last.sql
