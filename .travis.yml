@@ -2,6 +2,8 @@ sudo: required
 env:
   - OS_TYPE=centos OS_VERSION=6
   - OS_TYPE=centos OS_VERSION=7
+  - OS_TYPE=opensuse OS_VERSION=42.2
+  - OS_TYPE=opensuse OS_VERSION=42.3
   - os: linux
   - os: osx
   
@@ -9,11 +11,10 @@ services:
   - docker
   
 before_install:
-  - OS_TYPE=centos 
-    - if [[ ${OS_TYPE}="centos" ]]; then sudo apt-get update
-    - if [[ ${OS_TYPE}="centos" ]]; then sudo service docker restart
-    - if [[ ${OS_TYPE}="centos" ]]; then sleep 5
-    - if [[ ${OS_TYPE}="centos" ]]; then sudo docker pull ${OS_TYPE}:${OS_TYPE}${OS_VERSION}
+  - if [[ ${OS_TYPE}="centos" || ${OS_TYPE}="opensuse" ]]; then sudo apt-get update
+  - if [[ ${OS_TYPE}="centos" || ${OS_TYPE}="opensuse" ]]; then sudo service docker restart
+  - if [[ ${OS_TYPE}="centos" || ${OS_TYPE}="opensuse" ]]; then sleep 5
+  - if [[ ${OS_TYPE}="centos" || ${OS_TYPE}="opensuse" ]]; then sudo docker pull ${OS_TYPE}:${OS_TYPE}${OS_VERSION}
 
 
 before_install:
