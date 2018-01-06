@@ -103,4 +103,4 @@ ENV/
 .idea
 
 # VS code
-.vscode/last.sql
+.vscode/
