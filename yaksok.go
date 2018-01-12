@@ -5,14 +5,67 @@ import (
 	"fmt"
 )
 
+// YaksokFlagSetInterface is an interface for the struct FlagSet.
+type YaksokFlagSetInterface interface {
+	// initialize FlagSet
+	init()
+	// 명령어를 처리한다.
+	pitin()
+}
+
+type AddFlagSet struct {
+	YaksokFlagSetInterface
+	flagSet flag.FlagSet
+}
+
+// This is  AddFlagSet.init
+func (flagset *AddFlagSet) init() {
+	flagset.String("at", "", "Schedule the time when a job is run.")
+	flagset.String("day", "", "Schedule the time when a job is run daily.")
+	flagset.String("week", "", "Schedule the date when a job is run weekly.")
+	flagset.String("month", "", "Schedule the date or the weekday when a job is run monthly.")
+	flagset.String("year", "", "Schedule the date or weekdate or monthdate when a job is run yearly.")
+}
+
+type ListFlagSet struct {
+	YaksokFlagSetInterface
+}
+
+// This is  ListFlagSet.init
+func (flagset *ListFlagSet) init() {
+
+}
+
+type DeleteFlagSet struct {
+	YaksokFlagSetInterface
+}
+
+// This is  DeleteFlagSet.init
+func (flagset *DeleteFlagSet) init() {
+
+}
+
+type PreferenceFlagSet struct {
+	YaksokFlagSetInterface
+}
+
+// This is  PreferenceFlagSet.init
+func (flagset *PreferenceFlagSet) init() {
+
+}
+
 func main() {
 	// Subcommands
-	countCommand := flag.NewFlagSet("count", flag.ExitOnError)
-	listCommand := flag.NewFlagSet("list", flag.ExitOnError)
+	addFlagSet := flag.NewFlagSet("add", flag.ExitOnError)
+	listFlagSet := flag.NewFlagSet("list", flag.ExitOnError)
+	deleteFlagSet := flag.NewFlagSet("delete", flag.ExitOnError)
+	preferenceFlagSet := flag.NewFlagSet("preference", flag.ExitOnError)
+
+	AddFlagSet.init()
 
 	// Count subcommand flag pointers
 	// Adding a new choice for --metric of 'substring' and a new --substring flag
-	countTextPtr := countCommand.String("text", "", "Text to parse. (Required)")
+	countTextPtr := addFlagSet.String("text", "", "Text to parse. (Required)")
 	countMetricPtr := countCommand.String("metric", "chars", "Metric {chars|words|lines|substring}. (Required)")
 	countSubstringPtr := countCommand.String("substring", "", "The substring to be counted. Required for --metric=substring")
 	countUniquePtr := countCommand.Bool("unique", false, "Measure unique values of a metric.")
