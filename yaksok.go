@@ -33,7 +33,8 @@ type ListFlagSet struct {
 
 // This is  ListFlagSet.init
 func (flagset *ListFlagSet) init() {
-
+	flagset.String("list", "", "Load yaksokduled job list. The list is owned by user.")
+	flagset.String("list-all", "", "Load yaksokdule job list. The job list is readable by root. This command can run only sudoers.")
 }
 
 type DeleteFlagSet struct {
@@ -42,7 +43,7 @@ type DeleteFlagSet struct {
 
 // This is  DeleteFlagSet.init
 func (flagset *DeleteFlagSet) init() {
-
+	flagset.String("delete")
 }
 
 type PreferenceFlagSet struct {
