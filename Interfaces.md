@@ -1,13 +1,5 @@
 # Yaksok interface
 
-## Common options
-
-| cmd | Req/Opt | description | example | 
-| --- | --- | --- | --- | 
-| `--cmd`, `-c` | Rqeuired | Specify command. Omittable if the command is at front or rear. | `yaksok --cmd='echo hello world' -a 8:45`, `yaksok -c 'echo hello world' -a 8:45`, `yaksok 'echo hello world' -a 8:45`, `yaksok -a 8:45 'echo hello world'` | 
-| `--name`, `-n` | Optional | Name the job. It should be unique. |  `yaksok 'echo hello world' -a 8:45 -n hello`  | 
-| `--tag`, `-t` | Optional | put tag on the job. You can tag multiple keys separated with comma. |  `yaksok 'echo hello world' -a 8:45 -t this,is,connect,ring,between,you,and,me`  |
-
 ## once
 
 `once` command uses 1 option, `at`.
@@ -152,8 +144,8 @@ yaksok secondly "echo 'hell world'" # works every second.
 show scheduled jobs list. The list is composed by user.
 
 ``` sh
-yaksok list  # show jobs which you have auth.
-yaksok list --all  # show jobs which you have auth.
+yaksok list  # show jobs which you scheduned or had auth.
+yaksok list --all  # show jobs which you scheduled and others job whant you can read with auth.
 yaksok list --who {user}  # show whose jobs which you have auth.
 yaksok list --name {name}  # show jobs whose name has queried name as substring
 yaksok list --tag {tag}  # show jobs whose name has queried tag (not substring)
