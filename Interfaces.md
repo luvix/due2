@@ -13,7 +13,13 @@
 `once` command uses 1 option, `at`.
 If you does not specify the time, it works at `anytime` on next day.
 
+| cmd| description |
+| ---| --- |
+| `--at` | Schedule a job. It works just once. |
+| `--job` | command what you want to schedule. If your job command is next to keyword, option is not to be needed. |
+
 ``` sh
+yaksok once --job "echo 'hell world'" --at 8:45
 yaksok once "echo 'hell world'" --at 8:45
 yaksok once "echo 'hell world'" --at 8:45 12:30 # works twice
 ```
@@ -23,7 +29,13 @@ yaksok once "echo 'hell world'" --at 8:45 12:30 # works twice
 `once` command uses 1 option, `at`.
 If you does not specify the time, it works at `anytime` on everyday.
 
+| cmd| description |
+| ---| --- |
+| `--at` | Schedule a job. It works just once. |
+| `--job` | command what you want to schedule. If your job command is next to keyword, option is not to be needed. |
+
 ``` sh
+yaksok daily --job "echo 'hell world'" --at 8:45
 yaksok daily "echo 'hell world'" --at 8:45
 yaksok daily "echo 'hell world'" --at 8:45 12:30  # works twice everyday
 ```
@@ -34,6 +46,12 @@ yaksok daily "echo 'hell world'" --at 8:45 12:30  # works twice everyday
 If you does not specify the time, it works at `anytime`.
 If you does not specify the day, it works on `firstday`.
 You can set the `firstday` by useing `preference` command.
+
+| cmd| description |
+| ---| --- |
+| `--at` | Schedule a job when it work on time. It works just once. |
+|`--on`| Schedule a job when it works on day. It works everyweek. |
+| `--job` | command what you want to schedule. If your job command is next to keyword, option is not to be needed. |
 
 ``` sh
 yaksok weekly "echo 'hell world'" --on fri --at 8:45
@@ -51,6 +69,12 @@ yaksok weekly "echo 'hell world'" --on sat --at fri 8:45 # ERROR
 If you does not specify the time, it works at `anytime`.
 If you does not specify the day, it works on *1st day in month*.
 
+| cmd| description |
+| ---| --- |
+| `--at` | Schedule a job when it work on time. It works just once. |
+|`--on`| Schedule a job when it works on day or week. It works everymonth. |
+| `--job` | command what you want to schedule. If your job command is next to keyword, option is not to be needed. |
+
 ``` sh
 yaksok monthly "echo 'hell world'" --on fri --at 8:45
 yaksok monthly "echo 'hell world'" --at fri 8:45
@@ -66,6 +90,12 @@ yaksok add "echo \'hi\'" --on 2wk2wd --at 8:45  # run a job every second week on
 If you does not specify the time, it works at `anytime`.
 If you does not specify the day, it works on *january 1st*.
 
+| cmd| description |
+| ---| --- |
+| `--at` | Schedule a job when it work on time. It works just once. |
+|`--on`| Schedule a job when it works on date, day, week or month. It works every year. |
+| `--job` | command what you want to schedule. If your job command is next to keyword, option is not to be needed. |
+
 ``` sh
 yaksok yearly "echo \'hi\'" --month=10md
 yaksok yearly "echo \'hi\'" --month=10md 8:45
@@ -73,15 +103,17 @@ yaksok yearly "echo \'hi\'" --month=10md --at 8:45
 yaksok yearly "echo \'hi\'" --month=2wk --at 8:45  # run a job on sunday
 ```
 
-| cmd | Req/Opt | description | example |
-| --- | --- | --- | --- |
-| `--at`, `-t`  |   Optional  |  Schedule a job. It works just once.  |  `yaksok 'echo hello world' --at=8:45`, `yaksok 'echo hello world' -t 8:45`|
-| `--day`, `-d` | Optional | Schedule a job. It works everyday. You can schedule multiple times. critaria is comma(`,`) | `yaksok 'echo hello world' --day=8:45`, `yaksok 'echo hello world' -d 8:45,12:30` |
-| `--week`, `-w` | Optional | Schedule a job. It works everyweek. You can schedule multiple days. critaria is comma(`,`) | `yaksok 'echo hello world' --weeks=1 --at=8:45`, `yaksok 'echo hello world' -w 1 -a 8:45` |
-| `--month`, `-m` | Optional | yaksokdule routine (interval unit: month) | `yaksok 'echo hello world' --months=1 --at=8:45`, `yaksok 'echo hello world' -m 1 -a 8:45` |
-| `--year`, `-y` | Optional | yaksokdule routine (interval unit: year) | `yaksok 'echo hello world' --years=1 --at=8:45`, `yaksok 'echo hello world' -y 1 -a 8:45` |
+| cmd| description |
+| ---| --- |
+| `--at` | Schedule a job. It works just once. |
+| `--job` | command what you want to schedule. |
 
 ## hourly
+
+| cmd| description |
+| ---| --- |
+| `--at` | Schedule a job when it works on minute. It works just once. |
+| `--job` | command what you want to schedule. If your job command is next to keyword, option is not to be needed. |
 
 ``` sh
 yaksok hourly "echo 'hell world'" # works every hour on time.
@@ -92,6 +124,11 @@ yaksok hourly "echo 'hell world'" --at 0 20 40   # works every hour on time, 20 
 
 ## minutely
 
+| cmd| description |
+| ---| --- |
+| `--at` | Schedule a job when it works on second. It works just once. |
+| `--job` | command what you want to schedule. If your job command is next to keyword, option is not to be needed. |
+
 ``` sh
 yaksok minutely "echo 'hell world'" # works every minute at time.
 yaksok minutely "echo 'hell world'" --at 0 20 40 # works every hour at time, 20 second, 40 second.
@@ -99,9 +136,14 @@ yaksok minutely "echo 'hell world'" --at 0 20 40 # works every hour at time, 20 
 
 ## secondly
 
-no more optional option without command.
+This command does not explicit when it work. It just run a job every second. 
+
+| cmd| description |
+| ---| --- |
+| `--job` | command what you want to schedule. If your job command is next to keyword, option is not to be needed. |
 
 ``` sh
+yaksok secondly --job "echo 'hell world'" # works every second.
 yaksok secondly "echo 'hell world'" # works every second.
 ```
 
@@ -111,7 +153,7 @@ show scheduled jobs list. The list is composed by user.
 
 ``` sh
 yaksok list  # show jobs which you have auth.
-yaksok list --all # show jobs which you have auth.
+yaksok list --all  # show jobs which you have auth.
 yaksok list --who {user}  # show whose jobs which you have auth.
 yaksok list --name {name}  # show jobs whose name has queried name as substring
 yaksok list --tag {tag}  # show jobs whose name has queried tag (not substring)
