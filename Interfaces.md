@@ -128,7 +128,7 @@ yaksok minutely "echo 'hell world'" --at 0 20 40 # works every hour at time, 20 
 
 ## secondly
 
-This command does not explicit when it work. It just run a job every second. 
+This command does not explicit when it work. It just run a job every second.
 
 | cmd| description |
 | ---| --- |
