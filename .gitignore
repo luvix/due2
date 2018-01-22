@@ -101,3 +101,8 @@ ENV/
 # myIgnore
 .venv.py3
 .idea
+
+# VS code
+.vscode/
+/debug
+debug

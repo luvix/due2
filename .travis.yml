@@ -1,7 +1,0 @@
-sudo: required
-env:
-  matrix:
-    - os: linux
-    - os: osx
-    - OS_TYPE=centos OS_VERSION=6
-    - OS_TYPE=centos OS_VERSION=7
