@@ -1,0 +1,46 @@
+package main
+
+import (
+	"flag"
+	"fmt"
+	"os"
+)
+
+func main() {
+	// log.Fatal("Noway")
+	fmt.Println("Hello world")
+	secondly := flag.NewFlagSet("secondly", flag.ExitOnError)
+	// attime := secondly.String("", "", "time")
+	flag.String("h", "", "usage: h")
+	flag.String("hello", "", "usage: hello")
+	flag.String("cmd", "", "usage: cmd")
+	flag.Bool("help", false, "print usage")
+
+	yaksokcli.String("asd", "asd", "asd")
+
+	///////// THIS IS THE SOLUTION//////////////////
+	flag.Usage = func() {
+		fmt.Fprintf(os.Stderr, "This is not helpful.\n")
+		flag.VisitAll(func(f *flag.Flag) {
+			// fmt.Fprintf(os.Stderr, "\t%s\t\t%s\n", f.Name, f.Usage)
+			fmt.Printf("\t%s\t\t%s\n", f.Name, f.Usage)
+		})
+	}
+
+	///////// IT WAS THE SOLUTION//////////////////
+
+	yaksokcli.Parse()
+	flag.Parse()
+	fmt.Println("is flag parsed? ", flag.Parsed())
+
+	defer fmt.Println("????")
+
+	switch flag.Arg(0) {
+	case "secondly":
+		secondly.Parse(flag.Args()[1:])
+		fmt.Println(secondly.Args())
+	default:
+		fmt.Println("엄....")
+	}
+
+}
