@@ -105,3 +105,4 @@ ENV/
 # VS code
 .vscode/
 /debug
+debug
