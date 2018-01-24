@@ -19,6 +19,55 @@ func Usage() {
 	})
 }
 
+//YaksokFlag is an object model for main level flags
+type Yaksok struct {
+	version    *bool
+	help       *bool
+	onece      *flag.FlagSet
+	daily      *flag.FlagSet
+	weekly     *flag.FlagSet
+	monthly    *flag.FlagSet
+	yearly     *flag.FlagSet
+	secondly   *flag.FlagSet
+	minutely   *flag.FlagSet
+	hourly     *flag.FlagSet
+	list       *flag.FlagSet
+	delete     *flag.FlagSet
+	preference *flag.FlagSet
+}
+
+func YaksokFactory() *Yaksok {
+	ys := new(Yaksok)
+	ys.secondly = flag.NewFlagSet("secondly", flag.PanicOnError)
+	return ys
+}
+
+//ShakeFlag is shaking yaksok flag to indicate what yaksok core would be done.
+func (flag *Yaksok) ShakeFlag(args []string) {
+	if len(args) > 0 {
+		// if argument is subflagset
+		flag.ShakeSubsetFlag(args)
+	} else {
+		// if argument is main flag
+	}
+}
+
+//ShakeSubsetFlag is shaking subset flag of yaksok to indicate what yaksok core would be done.
+func (flag *Yaksok) ShakeSubsetFlag(args []string) int {
+	switch args[0] {
+	case "secondly":
+		fmt.Println("sec", args)
+		flag.secondly.Parse(args[1:])
+		fmt.Println(flag.secondly.Args())
+	case "daily":
+		flag.daily.Parse(args[1:])
+		fmt.Println(flag.daily.Args())
+	default:
+		fmt.Println("엄....")
+	}
+	return 1
+}
+
 func main() {
 	fVersion := flag.Bool("v", false, "Read the module version.")
 	fHelp := flag.Bool("h", false, "Gel help")
@@ -29,6 +78,7 @@ func main() {
 	// fsMonthly
 	// fsYearly
 	fsSecondly := flag.NewFlagSet("secondly", flag.ExitOnError)
+	// secondlyAt := fsSecondly.String("at", time.Now().Format(time.RFC3339), "the time when you want to run a job")
 	// fsMinutely
 	// fsHourly
 	// fsList
