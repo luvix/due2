@@ -162,10 +162,10 @@ yaksok delete --name {name}  # delete by name
 yaksok delete --tag {tag}  # delete by tag
 ```
 
-## prefrerence
+## setting
 
 ``` sh
-yaksok preference --anytime 04:00:00  # run a job which is specified to anytime
+yaksok setting --anytime 04:00:00  # run a job which is specified to anytime
 ```
 
 | cmd | description |
