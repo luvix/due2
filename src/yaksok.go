@@ -19,26 +19,39 @@ func Usage() {
 	})
 }
 
-//YaksokFlag is an object model for main level flags
+//Yaksok is an object model for main level flags
 type Yaksok struct {
-	version    *bool
-	help       *bool
-	onece      *flag.FlagSet
-	daily      *flag.FlagSet
-	weekly     *flag.FlagSet
-	monthly    *flag.FlagSet
-	yearly     *flag.FlagSet
-	secondly   *flag.FlagSet
-	minutely   *flag.FlagSet
-	hourly     *flag.FlagSet
-	list       *flag.FlagSet
-	delete     *flag.FlagSet
-	preference *flag.FlagSet
+	version  *bool
+	help     *bool
+	once     *flag.FlagSet
+	daily    *flag.FlagSet
+	weekly   *flag.FlagSet
+	monthly  *flag.FlagSet
+	yearly   *flag.FlagSet
+	secondly *flag.FlagSet
+	minutely *flag.FlagSet
+	hourly   *flag.FlagSet
+	list     *flag.FlagSet
+	delete   *flag.FlagSet
+	setting  *flag.FlagSet
+	// subsets  map[string]*flag.FlagSet
 }
 
+// YaksokFactory initliazes Yaksok.
 func YaksokFactory() *Yaksok {
 	ys := new(Yaksok)
+	ys.once = flag.NewFlagSet("once", flag.PanicOnError)
+	ys.daily = flag.NewFlagSet("daily", flag.PanicOnError)
+	// ys.weekly = flag.NewFlagSet("weekly", flag.PanicOnError)
+	// ys.monthly = flag.NewFlagSet("monthly", flag.PanicOnError)
+	// ys.yearly = flag.NewFlagSet("yearly", flag.PanicOnError)
 	ys.secondly = flag.NewFlagSet("secondly", flag.PanicOnError)
+	ys.minutely = flag.NewFlagSet("minutely", flag.PanicOnError)
+	ys.hourly = flag.NewFlagSet("hourly", flag.PanicOnError)
+	ys.list = flag.NewFlagSet("list", flag.PanicOnError)
+	ys.delete = flag.NewFlagSet("delete", flag.PanicOnError)
+	ys.setting = flag.NewFlagSet("setting", flag.PanicOnError)
+
 	return ys
 }
 
