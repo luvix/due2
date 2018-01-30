@@ -7,8 +7,12 @@ import (
 
 func TestNewTimelyFlagSet(t *testing.T) {
 	tfs := NewTimelyFlagSet("test", flag.ExitOnError)
+
+	if tfs == nil {
+		t.Error()
+	}
 }
 
-// func TestTimelyYaksokTags(T *testing.T) {
-	
-// }
+func TestTimelyYaksokTags(T *testing.T) {
+
+}
