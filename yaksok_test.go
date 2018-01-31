@@ -26,16 +26,8 @@ func TestSubFlagBoxFactory(t *testing.T) {
 		t.Error("New box fail")
 	}
 
-	if box.flagsets["once"] == nil {
-		t.Error("New Flagset fail")
-	}
-
-	if box.flagsets["setting"] == nil {
-		t.Error("New Flagset fail")
-	}
-
-	if box.flagsets["list"] == nil {
-		t.Error("New Flagset fail")
+	if box.once == nil {
+		t.Error("No once")
 	}
 }
 

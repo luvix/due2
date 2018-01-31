@@ -9,6 +9,15 @@ import (
 const (
 	// YaksokVersion is app version
 	YaksokVersion = "v.0.1.0"
+
+	KeyFlagOnce     = "once"
+	KeyFlagSecondly = "secondly"
+	KeyFlagMinutely = "minutely"
+	KeyFlagHourly   = "hourly"
+	KeyFlagDaily    = "daily"
+	KeyFlagWeekly   = "weekly"
+	KeyFlagMonthly  = "Monthly"
+	KeyFlagYearly   = "yearly"
 )
 
 //Usage Overrides flag.Usage.
@@ -19,7 +28,7 @@ func Usage() {
 	})
 }
 
-//Yaksok is an object model for main level flags
+//MainFlagBox is an object model for main level flags
 type MainFlagBox struct {
 	version *bool
 	help    *bool
@@ -34,29 +43,78 @@ func MainFlagBoxFactory() *MainFlagBox {
 	return new(MainFlagBox)
 }
 
-type SubFlagBox struct {
-	//TODO: 곧 만들꺼야
-	flagsets map[string]*flag.FlagSet
+// AtFlagSet is for once, minutely, secondly
+type AtFlagSet struct {
+	flagset *flag.FlagSet
+	name    string
+	tags    []string
+	at      string
 }
 
-func (box *SubFlagBox) Names() []string {
-	return []string{
-		"once", "daily", "weekly", "monthly", "yearly",
-		"hourly", "minutely", "secondly",
-		"list", "delete", "setting",
+func NewAtFlagSet(name string) *AtFlagSet {
+	fs := &AtFlagSet{
+		name: name,
 	}
+	fs.flagset = flag.NewFlagSet(name, flag.PanicOnError)
+	return fs
 }
 
-func (box *SubFlagBox) UpdateFlagSets(name string) {
-	box.flagsets[name] = flag.NewFlagSet(name, flag.PanicOnError)
+// AtNowFlagSet is for daily, hourly
+type AtNowFlagSet struct {
+	flagset *flag.FlagSet
+	name    string
+	tags    []string
+	at      string
+	now     string
+}
+
+func NewAtNowFlagSet(name string) *AtNowFlagSet {
+	fs := &AtNowFlagSet{
+		name: name,
+	}
+	fs.flagset = flag.NewFlagSet(name, flag.PanicOnError)
+	return fs
+}
+
+// AtNowOnFlagSet is for daily, hourly
+type AtNowOnFlagSet struct {
+	flagset *flag.FlagSet
+	name    string
+	tags    []string
+	at      string
+	now     string
+	on      string
+}
+
+func NewAtNowOnFlagSet(name string) *AtNowOnFlagSet {
+	fs := &AtNowOnFlagSet{
+		name: name,
+	}
+	fs.flagset = flag.NewFlagSet(name, flag.PanicOnError)
+	return fs
+}
+
+type SubFlagBox struct {
+	once     *AtFlagSet
+	secondly *AtFlagSet
+	minutely *AtFlagSet
+	daily    *AtNowFlagSet
+	hourly   *AtNowFlagSet
+	weekly   *AtNowOnFlagSet
+	monthly  *AtNowOnFlagSet
+	yearly   *AtNowOnFlagSet
 }
 
 func SubFlagBoxFactory() *SubFlagBox {
-	box := new(SubFlagBox)
-	box.flagsets = make(map[string]*flag.FlagSet)
-
-	for _, v := range box.Names() {
-		box.UpdateFlagSets(v)
+	box := &SubFlagBox{
+		once:     NewAtFlagSet(KeyFlagOnce),
+		secondly: NewAtFlagSet(KeyFlagSecondly),
+		minutely: NewAtFlagSet(KeyFlagMinutely),
+		hourly:   NewAtNowFlagSet(KeyFlagHourly),
+		daily:    NewAtNowFlagSet(KeyFlagDaily),
+		weekly:   NewAtNowOnFlagSet(KeyFlagWeekly),
+		monthly:  NewAtNowOnFlagSet(KeyFlagMonthly),
+		yearly:   NewAtNowOnFlagSet(KeyFlagYearly),
 	}
 
 	return box
