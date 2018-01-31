@@ -25,6 +25,18 @@ func TestSubFlagBoxFactory(t *testing.T) {
 	if box == nil {
 		t.Error("New box fail")
 	}
+
+	if box.flagsets["once"] == nil {
+		t.Error("New Flagset fail")
+	}
+
+	if box.flagsets["setting"] == nil {
+		t.Error("New Flagset fail")
+	}
+
+	if box.flagsets["list"] == nil {
+		t.Error("New Flagset fail")
+	}
 }
 
 func TestFlagBoxFactory(t *testing.T) {
@@ -47,6 +59,5 @@ func TestMainFlagBoxPickup(t *testing.T) {
 
 func TestSubFlagBoxPickup(t *testing.T) {
 	box := SubFlagBoxFactory()
-
 	box.Pickup(nil)
 }

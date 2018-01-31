@@ -25,10 +25,6 @@ type MainFlagBox struct {
 	help    *bool
 }
 
-type SubFlagBox struct {
-	//TODO: 곧 만들꺼야
-}
-
 type FlagBox struct {
 	mainBox *MainFlagBox
 	subBox  *SubFlagBox
@@ -38,8 +34,32 @@ func MainFlagBoxFactory() *MainFlagBox {
 	return new(MainFlagBox)
 }
 
+type SubFlagBox struct {
+	//TODO: 곧 만들꺼야
+	flagsets map[string]*flag.FlagSet
+}
+
+func (box *SubFlagBox) Names() []string {
+	return []string{
+		"once", "daily", "weekly", "monthly", "yearly",
+		"hourly", "minutely", "secondly",
+		"list", "delete", "setting",
+	}
+}
+
+func (box *SubFlagBox) UpdateFlagSets(name string) {
+	box.flagsets[name] = flag.NewFlagSet(name, flag.PanicOnError)
+}
+
 func SubFlagBoxFactory() *SubFlagBox {
-	return new(SubFlagBox)
+	box := new(SubFlagBox)
+	box.flagsets = make(map[string]*flag.FlagSet)
+
+	for _, v := range box.Names() {
+		box.UpdateFlagSets(v)
+	}
+
+	return box
 }
 
 // FlagBoxFactory initliazes FlagBox.
@@ -96,19 +116,6 @@ func main() {
 	box.mainBox.version = flag.Bool("v", false, "Read the module version.")
 	box.mainBox.help = flag.Bool("h", false, "Gel help")
 
-	// fsOnce
-	// fsDaily := flag.NewFlagSet("daily", flag.ExitOnError)
-	// fsWeekly
-	// fsMonthly
-	// fsYearly
-	// fsSecondly := flag.NewFlagSet("secondly", flag.ExitOnError)
-	// secondlyAt := fsSecondly.String("at", time.Now().Format(time.RFC3339), "the time when you want to run a job")
-	// fsMinutely
-	// fsHourly
-	// fsList
-	// fsDelete
-	// fsPreference
-
 	// overrides flag.Usage to customize yaksok.
 	flag.Usage = Usage
 
@@ -116,27 +123,4 @@ func main() {
 	flag.Parse()
 
 	box.Pickup(flag.Args())
-
-	// if argument is exist: user want to use flagset
-	// if len(flag.Args()) > 0 {
-	// 	switch flag.Arg(0) {
-	// 	case "secondly":
-	// 		fsSecondly.Parse(flag.Args()[1:])
-	// 		fmt.Println(fsSecondly.Args())
-	// 	case "daily":
-	// 		fsDaily.Parse(flag.Args()[1:])
-	// 		fmt.Println(fsDaily.Args())
-	// 	default:
-	// 		fmt.Println("엄....")
-	// 	}
-	// } else {
-	// 	if *fVersion {
-	// 		fmt.Println(YaksokVersion)
-	// 	} else if *fHelp {
-	// 		Usage()
-	// 	} else {
-	// 		fmt.Fprintf(os.Stderr, "Yaksok needs flag or command.\n")
-	// 		flag.PrintDefaults()
-	// 	}
-	// }
 }
