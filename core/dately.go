@@ -20,15 +20,13 @@ func (ys *TimelyYaksok) Command() string {
 	return ys.cmd
 }
 
-func (ys *TimelyYaksok) Tag(tag string) string {
-	var theTag string
+func (ys *TimelyYaksok) Tag(tag string) bool {
 	for _, t := range ys.tags {
 		if tag == t {
-			theTag = t
+			return true
 		}
 	}
 	panic("no tag exist")
-	return theTag
 }
 
 func (ys *TimelyYaksok) Tags() []string {

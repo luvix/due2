@@ -39,8 +39,14 @@ type FlagBox struct {
 	subBox  *SubFlagBox
 }
 
+//MainFlagBoxFactory makes MainFlagBox new.
 func MainFlagBoxFactory() *MainFlagBox {
 	return new(MainFlagBox)
+}
+
+//Parsable makes timelyflagset parsable.
+type Parsable interface {
+	Parse(arg []string)
 }
 
 // AtFlagSet is for once, minutely, secondly
@@ -51,12 +57,18 @@ type AtFlagSet struct {
 	at      string
 }
 
+//NewAtFlagSet makes AtFlagSet new.
 func NewAtFlagSet(name string) *AtFlagSet {
 	fs := &AtFlagSet{
 		name: name,
 	}
 	fs.flagset = flag.NewFlagSet(name, flag.PanicOnError)
+	fs.flagset.Usage = Usage
 	return fs
+}
+
+func (fs *AtFlagSet) Parse(args []string) {
+
 }
 
 // AtNowFlagSet is for daily, hourly
@@ -68,12 +80,18 @@ type AtNowFlagSet struct {
 	now     string
 }
 
+//NewAtNowFlagSet makes AtNowFlagSet new.
 func NewAtNowFlagSet(name string) *AtNowFlagSet {
 	fs := &AtNowFlagSet{
 		name: name,
 	}
 	fs.flagset = flag.NewFlagSet(name, flag.PanicOnError)
+	fs.flagset.Usage = Usage
 	return fs
+}
+
+func (fs *AtNowFlagSet) Parse(args []string) {
+
 }
 
 // AtNowOnFlagSet is for daily, hourly
@@ -91,7 +109,12 @@ func NewAtNowOnFlagSet(name string) *AtNowOnFlagSet {
 		name: name,
 	}
 	fs.flagset = flag.NewFlagSet(name, flag.PanicOnError)
+	fs.flagset.Usage = Usage
 	return fs
+}
+
+func (fs *AtNowOnFlagSet) Parse(args []string) {
+
 }
 
 type SubFlagBox struct {
@@ -105,6 +128,7 @@ type SubFlagBox struct {
 	yearly   *AtNowOnFlagSet
 }
 
+//SubFlagBoxFactory makes SubFlagBox new.
 func SubFlagBoxFactory() *SubFlagBox {
 	box := &SubFlagBox{
 		once:     NewAtFlagSet(KeyFlagOnce),
@@ -120,7 +144,7 @@ func SubFlagBoxFactory() *SubFlagBox {
 	return box
 }
 
-// FlagBoxFactory initliazes FlagBox.
+// FlagBoxFactory makes FlagBox new.
 func FlagBoxFactory() *FlagBox {
 	box := new(FlagBox)
 	box.mainBox = MainFlagBoxFactory()
@@ -129,7 +153,7 @@ func FlagBoxFactory() *FlagBox {
 	return box
 }
 
-//PickupMainFlag is shaking yaksok flag to indicate what yaksok core would be done.
+//Pickup is Pick flag or flagset from FlagBox.
 func (box *FlagBox) Pickup(args []string) {
 	if len(args) > 0 {
 		// if argument is subflagset
@@ -140,6 +164,7 @@ func (box *FlagBox) Pickup(args []string) {
 	}
 }
 
+//Pickup is Pick flag or flagset from MainFlagBox.
 func (box *MainFlagBox) Pickup() {
 	if *box.version {
 		fmt.Println(YaksokVersion)
@@ -151,22 +176,38 @@ func (box *MainFlagBox) Pickup() {
 	}
 }
 
+//Pickup is Pick flag or flagset from SubFlagBox.
 func (box *SubFlagBox) Pickup(args []string) {
-	if len(args) == 0 {
+	// Not enought parameters.
+	if len(args) < 2 {
+		os.Exit(2)
 		return
 	}
 
+	var theBox Parsable
+
 	switch args[0] {
-	case "secondly":
-		fmt.Println("sec", args)
-		// flag.secondly.Parse(args[1:])
-		// fmt.Println(flag.secondly.Args())
-	case "daily":
-		// flag.daily.Parse(args[1:])
-		// fmt.Println(flag.daily.Args())
+	case KeyFlagOnce:
+		theBox = box.once
+	case KeyFlagSecondly:
+		theBox = box.secondly
+	case KeyFlagMinutely:
+		theBox = box.minutely
+	case KeyFlagHourly:
+		theBox = box.hourly
+	case KeyFlagDaily:
+		theBox = box.daily
+	case KeyFlagWeekly:
+		theBox = box.weekly
+	case KeyFlagMonthly:
+		theBox = box.monthly
+	case KeyFlagYearly:
+		theBox = box.yearly
 	default:
 		fmt.Println("엄....")
+		return
 	}
+	theBox.Parse(args[1:])
 }
 
 func main() {
