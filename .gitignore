@@ -99,6 +99,7 @@ ENV/
 .mypy_cache/
 
 # myIgnore
+<<<<<<< HEAD
 .venv.py3
 .idea
 
@@ -107,3 +108,8 @@ ENV/
 /debug
 debug
 debug.test
+=======
+/.idea
+*.sql
+*.db
+>>>>>>> remotes/origin/dev
