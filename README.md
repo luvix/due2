@@ -2,6 +2,9 @@
 
 Alternative job yaksokduler to cron.
 
+[![Build Status](https://travis-ci.org/theodore-kim/yaksok.svg?branch=dev)](https://travis-ci.org/theodore-kim/yaksok)
+[![Go Report Card](https://goreportcard.com/badge/github.com/theodore-kim/yaksok)](https://goreportcard.com/report/github.com/theodore-kim/yaksok)
+
 ## Feature
 
 - Schedulable by every sec, min, hour, day, week, month, and year
