@@ -15,4 +15,4 @@
 .vscode/
 /debug
 debug
-debug.test
+*.test
