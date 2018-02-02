@@ -201,11 +201,13 @@ func (box *FlagBox) Pickup(args []string) {
 
 //Pickup is Pick flag or flagset from YaksokFlagBox.
 func (box *YaksokFlagBox) Pickup() {
-	if *box.version {
-		fmt.Println(YaksokVersion)
-	} else {
-		if !*box.help {
-			fmt.Fprintf(os.Stderr, "Yaksok needs flag or command.\n")
+	if box.version != nil || box.help != nil {
+		if *box.version {
+			fmt.Println(YaksokVersion)
+		} else {
+			if !*box.help {
+				fmt.Fprintf(os.Stderr, "Yaksok needs flag or command.\n")
+			}
 		}
 		Usage()
 	}
@@ -214,9 +216,11 @@ func (box *YaksokFlagBox) Pickup() {
 //Pickup is Pick flag or flagset from SubFlagBox.
 func (box *SubFlagBox) Pickup(args []string) {
 	// Not enought parameters.
-	if len(args) < 2 {
-		os.Exit(2)
+	if args == nil {
+		fmt.Println("No arguments")
 		return
+	} else if len(args) < 2 {
+		os.Exit(2)
 	}
 
 	var theBox Parsable
