@@ -1,7 +1,8 @@
 language: go
 
 go:
-  - dev
+  - 1.9.x
+  - master
 
 before_install:
   - cp .netrc ~
