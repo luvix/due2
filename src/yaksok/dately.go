@@ -1,9 +1,7 @@
-package core
+package main
 
 import (
 	"flag"
-	"fmt"
-	"yaksok/common"
 )
 
 type AtYaksokInterface interface {
@@ -12,10 +10,10 @@ type AtYaksokInterface interface {
 
 //TimelyYaksok is a struct for timely flag.
 type TimelyYaksok struct {
-	name    string      // name of yaksok
-	tags    StringArray // tag of yaksok
-	cmd     string      // command of yaksok
-	timecmd *string     // time command of yaksok
+	name    string   // name of yaksok
+	tags    []string // tag of yaksok
+	cmd     string   // command of yaksok
+	timecmd *string  // time command of yaksok
 }
 
 func (ys *TimelyYaksok) Name() string {
@@ -46,14 +44,6 @@ func (ys *TimelyYaksok) Tags() []string {
 type TimelyFlagSet struct {
 	flagset *flag.FlagSet
 	yaksok  *TimelyYaksok
-}
-
-//Usage Overrides flag.Usage.
-func Usage() {
-	flag.VisitAll(func(f *flag.Flag) {
-		// fmt.Fprintf(os.Stderr, "\t%s\t\t%s\n", f.Name, f.Usage)
-		fmt.Printf("\t%s\t\t%s\n", f.Name, f.Usage)
-	})
 }
 
 func NewTimelyFlagSet(command string, errorHandling flag.ErrorHandling) *TimelyFlagSet {

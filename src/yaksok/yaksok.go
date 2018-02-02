@@ -47,6 +47,21 @@ func NewYaksokFlagBox() *YaksokFlagBox {
 	return new(YaksokFlagBox)
 }
 
+//StringArray is string array strcut.
+// from https://stackoverflow.com/a/28323276
+type StringArray []string
+
+func (sa *StringArray) String() string {
+	return "StringArray"
+}
+
+//Set is append a string to string array.
+func (sa *StringArray) Set(arg string) error {
+	*sa = append(*sa, arg)
+
+	return nil
+}
+
 //Parsable makes timelyflagset parsable.
 type Parsable interface {
 	Parse(arg []string)
@@ -124,6 +139,8 @@ func NewAtNowFlagSet(name string) *AtNowFlagSet {
 }
 
 func (fs *AtNowFlagSet) JobNow() string {
+	var temp AtYaksokInterface
+	temp.At()
 	return *fs.jobNow
 }
 
