@@ -3,13 +3,19 @@ package core
 import (
 	"flag"
 	"fmt"
+	"yaksok/common"
 )
 
+type AtYaksokInterface interface {
+	At()
+}
+
+//TimelyYaksok is a struct for timely flag.
 type TimelyYaksok struct {
-	name    string   // name of yaksok
-	tags    []string // tag of yaksok
-	cmd     string   // command of yaksok
-	timecmd *string  // time command of yaksok
+	name    string      // name of yaksok
+	tags    StringArray // tag of yaksok
+	cmd     string      // command of yaksok
+	timecmd *string     // time command of yaksok
 }
 
 func (ys *TimelyYaksok) Name() string {
