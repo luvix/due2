@@ -65,12 +65,12 @@ func (fs *FlagSet) Parse(arg []string) {
 	fs.flagset.Parse(arg)
 }
 
-//Name returns job name.
+//JobName returns job name.
 func (fs *FlagSet) JobName() string {
 	return *fs.jobName
 }
 
-//Tags returns job tags.
+//JobTags returns job tags.
 func (fs *FlagSet) JobTags() StringArray {
 	return fs.jobTags
 }
@@ -260,16 +260,6 @@ func Ready2FlagBox() *FlagBox {
 }
 
 func main() {
-	// box := NewFlagBox()
-	// box.yaksokBox.version = flag.Bool("v", false, "Read the module version.")
-	// box.yaksokBox.help = flag.Bool("h", false, "Gel help")
-
-	// // overrides flag.Usage to customize yaksok.
-	// flag.Usage = Usage
-
-	// parse main flag
-	// flag.Parse()
 	box := Ready2FlagBox()
-
 	box.Pickup(flag.Args())
 }
