@@ -63,14 +63,14 @@ func (sa *StringArray) Set(arg string) error {
 	return nil
 }
 
-//Parsable makes timelyflagset parsable.
-type Parsable interface {
+//Parser makes timelyflagset parsable.
+type Parser interface {
 	Parse(arg []string) string
 }
 
 //FlagSet is parent struct for AtFlagSet, AtNowFlagSet, AtNowOnFlagSet.
 type FlagSet struct {
-	Parsable
+	Parser
 	flagset *flag.FlagSet
 	jobName *string
 	jobTags StringArray
@@ -242,7 +242,7 @@ func (box *SubFlagBox) Pickup(args []string) {
 		os.Exit(2)
 	}
 
-	var theBox Parsable
+	var theBox Parser
 
 	switch args[0] {
 	case KeyFlagOnce:
