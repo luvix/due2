@@ -1,6 +1,7 @@
 package main
 
 import (
+	"./core"
 	"flag"
 	"fmt"
 	"os"
@@ -64,7 +65,7 @@ func (sa *StringArray) Set(arg string) error {
 
 //Parsable makes timelyflagset parsable.
 type Parsable interface {
-	Parse(arg []string)
+	Parse(arg []string) string
 }
 
 //FlagSet is parent struct for AtFlagSet, AtNowFlagSet, AtNowOnFlagSet.
@@ -122,6 +123,12 @@ func (fs *AtFlagSet) JobAt() string {
 	return *fs.jobAt
 }
 
+func (fs *AtFlagSet) Parse(args []string) string {
+	var result string
+	fs.flagset.Parse(args)
+	return result
+}
+
 // AtNowFlagSet is for daily, hourly
 type AtNowFlagSet struct {
 	AtFlagSet
@@ -139,8 +146,6 @@ func NewAtNowFlagSet(name string) *AtNowFlagSet {
 }
 
 func (fs *AtNowFlagSet) JobNow() string {
-	var temp AtYaksokInterface
-	temp.At()
 	return *fs.jobNow
 }
 
@@ -221,12 +226,9 @@ func (box *YaksokFlagBox) Pickup() {
 	if box.version != nil || box.help != nil {
 		if *box.version {
 			fmt.Println(YaksokVersion)
-		} else {
-			if !*box.help {
-				fmt.Fprintf(os.Stderr, "Yaksok needs flag or command.\n")
-			}
+		} else if *box.help {
+			Usage()
 		}
-		Usage()
 	}
 }
 
@@ -260,8 +262,7 @@ func (box *SubFlagBox) Pickup(args []string) {
 	case KeyFlagYearly:
 		theBox = box.yearly
 	default:
-		fmt.Println("엄....")
-		return
+		panic("...Who are you?")
 	}
 	theBox.Parse(args[1:])
 }
@@ -281,6 +282,10 @@ func Ready2FlagBox() *FlagBox {
 }
 
 func main() {
+	yt := new(core.TimelyYaksok)
+	fmt.Println(yt)
+	timely := core.NewTimely("hello")
+	fmt.Println(timely.Name())
 	box := Ready2FlagBox()
 	box.Pickup(flag.Args())
 }

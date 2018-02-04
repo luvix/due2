@@ -1,19 +1,19 @@
-package main
+/*
+Package core
+WORNING: package를 만들 때는 반드시 해당 package와 동일한 이름인 소스코드가 존재해야 한다.
+*/
+package core
 
 import (
 	"flag"
 )
-
-type AtYaksokInterface interface {
-	At()
-}
 
 //TimelyYaksok is a struct for timely flag.
 type TimelyYaksok struct {
 	name    string   // name of yaksok
 	tags    []string // tag of yaksok
 	cmd     string   // command of yaksok
-	timecmd *string  // time command of yaksok
+	timecmd string   // time command of yaksok
 }
 
 func (ys *TimelyYaksok) Name() string {
