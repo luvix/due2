@@ -15,7 +15,13 @@ const (
 	flagHelp    = "h" // flag for help
 )
 
+//Boxer makes type of Box structs Pickup available.
+type Boxer interface {
+	Pickup() string
+}
+
 type YaksokFlagBox struct {
+	Boxer
 	version *bool
 	help    *bool
 }
@@ -30,6 +36,7 @@ func NewYaksokFlagBox() *YaksokFlagBox {
 }
 
 type SubFlagBox struct {
+	Boxer
 	once     *AtFlagSet
 	secondly *AtFlagSet
 	minutely *AtFlagSet
@@ -38,6 +45,9 @@ type SubFlagBox struct {
 	weekly   *AtNowOnFlagSet
 	monthly  *AtNowOnFlagSet
 	yearly   *AtNowOnFlagSet
+	list     *ListFlagSet
+	delete   *DeleteFlagSet
+	setting  *SettingFlagSet
 }
 
 //NewSubFlagBox makes SubFlagBox new.
@@ -58,6 +68,7 @@ func NewSubFlagBox() *SubFlagBox {
 
 //FlagBox have YaksokFlagBox and SubFlagBox
 type FlagBox struct {
+	Boxer
 	yaksokBox *YaksokFlagBox
 	subBox    *SubFlagBox
 }
@@ -86,6 +97,7 @@ func (box *FlagBox) Pickup(args []string) error {
 //Pickup is Pick flag or flagset from YaksokFlagBox.
 func (box *YaksokFlagBox) Pickup() error {
 	var err error
+
 	if box.version != nil || box.help != nil {
 		if *box.version {
 			fmt.Println(YaksokVersion)
@@ -112,30 +124,30 @@ func (box *SubFlagBox) Pickup(args []string) error {
 		fmt.Println("Argument is not enough")
 		// box.Usage()
 	} else {
-		var theBox BaseParser
+		var flagset BaseParser
 
 		switch args[0] {
 		case KeyFlagOnce:
-			theBox = box.once
+			flagset = box.once
 		case KeyFlagSecondly:
-			theBox = box.secondly
+			flagset = box.secondly
 		case KeyFlagMinutely:
-			theBox = box.minutely
+			flagset = box.minutely
 		case KeyFlagHourly:
-			theBox = box.hourly
+			flagset = box.hourly
 		case KeyFlagDaily:
-			theBox = box.daily
+			flagset = box.daily
 		case KeyFlagWeekly:
-			theBox = box.weekly
+			flagset = box.weekly
 		case KeyFlagMonthly:
-			theBox = box.monthly
+			flagset = box.monthly
 		case KeyFlagYearly:
-			theBox = box.yearly
+			flagset = box.yearly
 		default:
 			panic("...Who are you?")
 		}
 
-		theBox.Parse(args[1:])
+		err = flagset.Parse(args[1:])
 	}
 
 	return err

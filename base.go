@@ -5,7 +5,7 @@ import (
 	"fmt"
 )
 
-// [A-Z]tringArray is string array strcut.
+// StringArray is string array strcut.
 // from https://stackoverflow.com/a/28323276
 type StringArray []string
 
@@ -13,21 +13,21 @@ func (sa *StringArray) String() string {
 	return "StringArray"
 }
 
-// [A-Z]et is append a string to string array.
+// Set is append a string to string array.
 func (sa *StringArray) Set(arg string) error {
 	*sa = append(*sa, arg)
 
 	return nil
 }
 
-// [A-Z]ob defines job.
+// Job defines job.
 type Job struct {
 	Name        *string
 	Tags        *StringArray
 	TimeCommand *StringArray
 }
 
-// [A-Z]ewJob creates a new job info.
+// NewJob creates a new job info.
 func NewJob() *Job {
 	job := &Job{
 		Name:        new(string),
@@ -71,7 +71,7 @@ type BaseFlagSet struct {
 	flagset    *flag.FlagSet // flagset for yaksok
 }
 
-// [A-Z]arse is deprecated.
+// Parse is deprecated.
 func (fs *BaseFlagSet) Parse(args []string) error {
 	return fs.flagset.Parse(args)
 }

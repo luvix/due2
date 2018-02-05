@@ -27,36 +27,39 @@ func NewTimeFlagSet(name string) *TimeFlagSet {
 
 type AtFlagSet struct {
 	TimeFlagSet
-	At string
+	at *string
 }
 
 func NewAtFlagSet(name string) *AtFlagSet {
 	fs := &AtFlagSet{
 		TimeFlagSet: *NewTimeFlagSet(name),
 	}
+	fs.at = fs.flagset.String("at", "", "at time")
 	return fs
 }
 
 type AtNowFlagSet struct {
 	AtFlagSet
-	Now string
+	now *bool
 }
 
 func NewAtNowFlagSet(name string) *AtNowFlagSet {
 	fs := &AtNowFlagSet{
 		AtFlagSet: *NewAtFlagSet(name),
 	}
+	fs.now = fs.flagset.Bool("now", false, "run it now")
 	return fs
 }
 
 type AtNowOnFlagSet struct {
 	AtNowFlagSet
-	On string
+	on *string
 }
 
 func NewAtNowOnFlagSet(name string) *AtNowOnFlagSet {
 	fs := &AtNowOnFlagSet{
 		AtNowFlagSet: *NewAtNowFlagSet(name),
 	}
+	fs.on = fs.flagset.String("on", "", "on time")
 	return fs
 }

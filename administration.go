@@ -14,7 +14,7 @@ type AdminFlagSet struct {
 type ListFlagSet struct {
 	AdminFlagSet
 	Job
-	All *bool
+	all *bool
 }
 
 type DeleteFlagSet struct {
