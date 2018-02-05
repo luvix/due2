@@ -148,9 +148,15 @@ func (box *SubFlagBox) Pickup(args []string) error {
 		if err = flagset.Parse(args[1:]); err != nil {
 			fmt.Println("Error:", err)
 		}
+
+		fmt.Println("yaksok", flagset)
 	}
 
 	return err
+}
+
+func superlongdescription() {
+	// fmt.Println()
 }
 
 //Ready2FlagBox is ready to FlagBox instead of main.
@@ -160,6 +166,7 @@ func Ready2FlagBox() *FlagBox {
 
 	// overrides flag.Usage to customize yaksok.
 	flag.Usage = func() {
+		superlongdescription()
 		fmt.Println("yaksok <flags>")
 		flag.VisitAll(func(f *flag.Flag) {
 			fmt.Printf("-%s\t%s\n", f.Name, f.Usage)

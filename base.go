@@ -57,6 +57,7 @@ func NewGonari(name string, group string) *Gonari {
 type BaseParser interface {
 	Parse(args []string) error
 	FlagSetName() string
+	String() string
 	Usage()
 }
 
@@ -71,8 +72,6 @@ type BaseFlagSet struct {
 func (fs *BaseFlagSet) Parse(args []string) error {
 	defer func() error {
 		if r := recover(); r != nil {
-			// fmt.Fprintf(os.Stderr, "[yaksok %s] %s\n", fs.name, r)
-			// fs.Usage()
 		}
 		return nil
 	}()
@@ -94,6 +93,18 @@ func DefaultUsage(fs *flag.FlagSet) {
 func (fs *BaseFlagSet) Usage() {
 	fmt.Println("flags in yaksok:", fs.name)
 	DefaultUsage(fs.flagset)
+}
+
+func (fs *BaseFlagSet) String() string {
+	var options string
+
+	fs.flagset.VisitAll(func(f *flag.Flag) {
+		options += " -" + f.Name + " "
+		options += f.Value.String()
+	})
+
+	stringified := fs.name + options
+	return stringified
 }
 
 // NewBaseFlagSet supports child FlagSets to allocate new one.
