@@ -98,15 +98,13 @@ func (box *FlagBox) Pickup(args []string) error {
 func (box *YaksokFlagBox) Pickup() error {
 	var err error
 
-	if box.version != nil || box.help != nil {
-		if *box.version {
-			fmt.Println(YaksokVersion)
-		} else if *box.help {
-			Usage()
-		}
+	if *box.version {
+		fmt.Println(YaksokVersion)
 	} else {
-		// return fmt.Errorf("")
-		panic("Something wrong")
+		if !*box.help {
+			fmt.Println("yaksok needs any flag or subflagset")
+		}
+		flag.Usage()
 	}
 
 	return err
@@ -147,7 +145,9 @@ func (box *SubFlagBox) Pickup(args []string) error {
 			panic("...Who are you?")
 		}
 
-		err = flagset.Parse(args[1:])
+		if err = flagset.Parse(args[1:]); err != nil {
+			fmt.Println("Error:", err)
+		}
 	}
 
 	return err
@@ -159,7 +159,21 @@ func Ready2FlagBox() *FlagBox {
 	box := NewFlagBox()
 
 	// overrides flag.Usage to customize yaksok.
-	flag.Usage = Usage
+	flag.Usage = func() {
+		fmt.Println("yaksok <flags>")
+		flag.VisitAll(func(f *flag.Flag) {
+			fmt.Printf("-%s\t%s\n", f.Name, f.Usage)
+		})
+		fmt.Println("yaksok <subset>")
+		fmt.Println("once\tRuns a job at once.")
+		fmt.Println("secondly\tRuns a job every second. it can run multiple times in a second.")
+		fmt.Println("minutely\tRuns a job every minute. it can run multiple times in a minute.")
+		fmt.Println("hourly\t\tRuns a job every hour. it can run multiple times in a hour.")
+		fmt.Println("daily\t\tRuns a job every day. it can run multiple times in a day.")
+		fmt.Println("weekly\t\tRuns a job every week. it can run multiple times in a week.")
+		fmt.Println("monthly\t\tRuns a job every month. it can run multiple times in a month.")
+		fmt.Println("yearly\t\tRuns a job every year. it can run multiple times in a year.")
+	}
 	flag.Parse()
 
 	return box
@@ -170,7 +184,7 @@ func main() {
 	err := box.Pickup(flag.Args())
 
 	if err != nil {
-		fmt.Println("Error:", err.Error())
-		Usage()
+		// fmt.Println("Error:", err.Error())
+		flag.Usage()
 	}
 }

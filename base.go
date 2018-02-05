@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
+	// "os"
 )
 
 // StringArray is string array strcut.
@@ -52,28 +53,47 @@ func NewGonari(name string, group string) *Gonari {
 	return gnr
 }
 
-// Usage Overrides flag.Usage.
-func Usage() {
-	flag.VisitAll(func(f *flag.Flag) {
-		// fmt.Fprintf(os.Stderr, "\t%s\t\t%s\n", f.Name, f.Usage)
-		fmt.Printf("\t%s\t\t%s\n", f.Name, f.Usage)
-	})
-}
-
 // BaseParser supports every has-a flag.FlagSet struct.
 type BaseParser interface {
 	Parse(args []string) error
+	FlagSetName() string
+	Usage()
 }
 
 // BaseFlagSet has common member variables(flag.FlagSet) and methods(BaseParser.Parse).
 type BaseFlagSet struct {
 	BaseParser               // Base parser for flagset in yaksok
 	flagset    *flag.FlagSet // flagset for yaksok
+	name       string        // flagset name
 }
 
 // Parse is deprecated.
 func (fs *BaseFlagSet) Parse(args []string) error {
-	return fs.flagset.Parse(args)
+	defer func() error {
+		if r := recover(); r != nil {
+			// fmt.Fprintf(os.Stderr, "[yaksok %s] %s\n", fs.name, r)
+			// fs.Usage()
+		}
+		return nil
+	}()
+
+	err := fs.flagset.Parse(args)
+	return err
+}
+
+func (fs *BaseFlagSet) FlagSetName() string {
+	return fs.name
+}
+
+func DefaultUsage(fs *flag.FlagSet) {
+	fs.VisitAll(func(f *flag.Flag) {
+		fmt.Printf("-%s\t%s\n", f.Name, f.Usage)
+	})
+}
+
+func (fs *BaseFlagSet) Usage() {
+	fmt.Println("flags in yaksok:", fs.name)
+	DefaultUsage(fs.flagset)
 }
 
 // NewBaseFlagSet supports child FlagSets to allocate new one.
@@ -82,6 +102,7 @@ func NewBaseFlagSet(name string) *BaseFlagSet {
 	fs := &BaseFlagSet{
 		flagset: flag.NewFlagSet(name, flag.PanicOnError),
 	}
-
+	fs.name = name
+	fs.flagset.Usage = fs.Usage
 	return fs
 }
