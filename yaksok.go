@@ -165,7 +165,7 @@ func Ready2FlagBox() *FlagBox {
 			fmt.Printf("-%s\t%s\n", f.Name, f.Usage)
 		})
 		fmt.Println("yaksok <subset>")
-		fmt.Println("once\tRuns a job at once.")
+		fmt.Println("once\t\tRuns a job at once.")
 		fmt.Println("secondly\tRuns a job every second. it can run multiple times in a second.")
 		fmt.Println("minutely\tRuns a job every minute. it can run multiple times in a minute.")
 		fmt.Println("hourly\t\tRuns a job every hour. it can run multiple times in a hour.")
